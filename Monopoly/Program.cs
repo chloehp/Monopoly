@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Monopoly
 {
-    internal class Program
+    internal class Method
     {
-        static int Dice(int dice)
+        private static int Dice(int dice)
         {//random number method for dice
 
             Random d = new Random();
@@ -24,161 +24,8 @@ namespace Monopoly
                 return dice3;
             }
         }
-        static void Main(string[] args)
+        public static void LocationFind(int player, int location0, int location1, int money0, int money1, out int location, out int money, out int diceRoll, out string playerName)
         {
-            //Home screen
-            Console.WriteLine("MONOPOLY");
-            Console.WriteLine("\nHow to play:\nblah blah blah");
-            Console.WriteLine("\n[         PRESS SPACEBAR         ]");
-
-            while (Console.ReadKey().Key != ConsoleKey.Spacebar) ;
-            //Console.Clear();
-
-            //global variables: !!!
-            int[] players = { 1, 2 };
-            string playerName;
-            int diceRoll;
-            int rent;
-            int money;
-            int[] moneyArray = new int[] { 2000, 2000 };
-            int[] locationArray = new int[] { 1, 1 };
-            int location;
-            int newLocation;
-            string propertyName;
-            int specialCase;
-            int winner;
-            //array with what player owns which tile, -1 means non-property tile
-            int[] ownership = new int[20] { -1, 0, -1, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 };
-
-            for (int round = 1; round <= 20; round++)
-            {
-
-                foreach (int player in players)
-                {
-                    LocationFind(player, locationArray[0], locationArray[1], moneyArray[0], moneyArray[1], out location, out money, out diceRoll, out playerName);
-
-                    //first location of round
-                    TileIndex(diceRoll, location, player, out newLocation, out propertyName, out rent, out specialCase);
-                    location = newLocation;
-
-                    //Console write . temp
-                    Console.WriteLine($"\nMONOPOLY      round: {round}");
-                    Console.WriteLine($"player name: {playerName}");
-                    Console.WriteLine($"location ID: {location}");
-                    Console.WriteLine($"money: {money}");
-                    Console.WriteLine($"dice roll:{diceRoll}");
-                    Console.WriteLine($"location name: {propertyName}");
-                    Console.WriteLine($"rent: {rent}");
-                    Console.WriteLine("\n PRESS ENTER TO CONTINUE");
-
-                    // diceroll count to location. 20 exception
-                    while ((diceRoll > 0) && (location != 20))
-                    {
-                        location++;
-                        diceRoll--;
-                        //for when player passes go
-                        //if location ID is over 12, -12
-                        if (location > 12)
-                        {
-                            money += 200;
-                            location -= 12;
-                            Console.WriteLine($"{playerName} is awarded £200 for passing/landing on GO!");
-                        }
-                    }
-
-
-                    while (Console.ReadKey().Key != ConsoleKey.Enter) ;
-                    ////Console.Clear();
-
-                    TileIndex(diceRoll, location, player, out newLocation, out propertyName, out rent, out specialCase);
-                    location = newLocation;
-
-                    //setting ownership on the ownership array. ownership -1 because of how array indexing works
-                    if (location != 20)
-                    {
-                        if (ownership[location - 1] == 0)
-                        {
-                            if (money >= (rent * 10))
-                            {
-                                ownership[location - 1] = player;
-                                //ownership is set to player ID in the ownership array, cost is taken:
-                                money -= (rent * 10);
-                                Console.WriteLine($"{playerName} has purchased {propertyName} for {rent * 10}");
-                            }
-                            else
-                            {
-                                Console.WriteLine($"{playerName} does not have the funds for {propertyName}");
-                            }
-                        }
-                        else if (ownership[location - 1] != player)
-                        {
-                            money -= rent;
-                            if (ownership[location - 1] == 1)
-                            {
-                                moneyArray[0] += rent;
-                                Console.WriteLine($"{playerName} pays Boot £{rent} for staying at {propertyName}");
-                            }
-                            else if (ownership[location - 1] == 2)
-                            {
-                                moneyArray[1] += rent;
-                                Console.WriteLine($"{playerName} pays Dog £{rent} for staying at {propertyName}");
-                            }
-
-                        }
-                        else //(ownership[location - 1] == player)
-                        {
-                            Console.WriteLine($"{playerName} is visiting their own property, {propertyName}");
-                        }
-                    }
-
-                    //Special case messages / scenarios
-                    SpecialCase(specialCase, playerName, money);
-
-
-                    //Console write . temp
-                    Console.WriteLine($"\nMONOPOLY      round: {round}");
-                    Console.WriteLine($"player name: {playerName}");
-                    Console.WriteLine($"location ID: {location}");
-                    Console.WriteLine($"money: {money}");
-                    Console.WriteLine($"dice roll: {diceRoll}");
-                    Console.WriteLine($"location name: {propertyName}");
-                    Console.WriteLine($"rent: {rent}");
-                    Console.WriteLine("\n[   NEXT PLAYER PRESS SPACEBAR   ]");
-
-                    while (Console.ReadKey().Key != ConsoleKey.Spacebar) ;
-                    //Console.Clear();
-
-                    //save variables
-                    switch (player)
-                    {
-                        case 1:
-                            locationArray[0] = location;
-                            moneyArray[0] = money;
-                            break;
-                        default://player 2
-                            locationArray[1] = location;
-                            moneyArray[1] = money;
-                            break;
-                    }
-
-                }
-            }
-
-            Console.WriteLine($"\nGAME OVER\nBoot has ended with £{moneyArray[0]}\nDog has ended with £{moneyArray[1]}");
-            if (moneyArray[0] > moneyArray[1])
-            { Console.WriteLine("BOOT WINS"); }
-            else if (moneyArray[0] < moneyArray[1])
-            { Console.WriteLine("DOG WINS"); }
-            else
-            { Console.WriteLine("DRAW"); }
-        }
-
-
-        static void LocationFind(int player, int location0, int location1, int money0, int money1, out int location, out int money, out int diceRoll, out string playerName)
-        {
-            //[2] is number of players
-            // locationArray = new int[2];
-            //moneyArray = new int[2];
 
             //who's the current player
             switch (player)
@@ -199,8 +46,7 @@ namespace Monopoly
             diceRoll = Dice(6);
 
         }
-
-        static void TileIndex(int diceRoll, int location, int player, out int newLocation, out string propertyName, out int rent, out int specialCase)
+        public static void TileIndex(int diceRoll, int location, int player, out int newLocation, out string propertyName, out int rent, out int specialCase)
         {
 
             switch (location)
@@ -330,8 +176,7 @@ namespace Monopoly
 
             }
         }
-
-        static void SpecialCase(int specialCase, string playerName, int money)
+        public static void SpecialCase(int specialCase, string playerName, int money)
         {
             if (specialCase == 8)
             {
@@ -369,5 +214,171 @@ namespace Monopoly
             }
 
         }
+    }
+    internal class Player
+    {
+        public int ID;
+        public int money;
+        public int location;
+    }
+    internal class Program
+    {    
+        static void Main(string[] args)
+        {
+            //Home screen
+            Console.WriteLine("MONOPOLY");
+            Console.WriteLine("\nHow to play:\nblah blah blah");
+            Console.WriteLine("\n[         PRESS SPACEBAR         ]");
+
+            while (Console.ReadKey().Key != ConsoleKey.Spacebar) ;
+            Console.Clear();
+
+            //variables:
+            Player Boot = new Player();
+            Boot.ID = 1;
+            Boot.money = 2000;
+            Boot.location = 1;
+
+            Player Dog = new Player();
+            Dog.ID = 2;
+            Dog.money = 2000;
+            Dog.location = 1;
+
+            int[] players = { Boot.ID, Dog.ID };
+            string playerName;
+            int diceRoll;
+            int rent;
+            int money;
+            int location;
+            int newLocation;
+            string propertyName;
+            int specialCase;
+            //array with what player owns which tile, -1 means non-property tile
+            int[] ownership = new int[20] { -1, 0, -1, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 };
+
+            Method object1 = new Method();
+
+            for (int round = 1; round <= 20; round++)
+            {
+
+                foreach (int player in players)
+                {
+                    Method.LocationFind(player, Boot.location, Dog.location, Boot.money, Dog.money, out location, out money, out diceRoll, out playerName);
+
+                    //first location of round
+                    Method.TileIndex(diceRoll, location, player, out newLocation, out propertyName, out rent, out specialCase);
+                    location = newLocation;
+
+                    //Console write . temp
+                    Console.WriteLine($"\nMONOPOLY      round: {round}");
+                    Console.WriteLine($"player name: {playerName}");
+                    Console.WriteLine($"location ID: {location}");
+                    Console.WriteLine($"money: {money}");
+                    Console.WriteLine($"dice roll:{diceRoll}");
+                    Console.WriteLine($"location name: {propertyName}");
+                    Console.WriteLine($"rent: {rent}");
+                    Console.WriteLine("\n PRESS ENTER TO CONTINUE");
+
+                    // diceroll count to location. 20 exception
+                    while ((diceRoll > 0) && (location != 20))
+                    {
+                        location++;
+                        diceRoll--;
+                        //for when player passes go
+                        //if location ID is over 12, -12
+                        if (location > 12)
+                        {
+                            money += 200;
+                            location -= 12;
+                            Console.WriteLine($"{playerName} is awarded £200 for passing/landing on GO!");
+                        }
+                    }
+
+
+                    while (Console.ReadKey().Key != ConsoleKey.Enter) ;
+                    Console.Clear();
+
+                    Method.TileIndex(diceRoll, location, player, out newLocation, out propertyName, out rent, out specialCase);
+                    location = newLocation;
+
+                    //setting ownership on the ownership array. ownership -1 because of how array indexing works
+                    if (location != 20)
+                    {
+                        if (ownership[location - 1] == 0)
+                        {
+                            if (money >= (rent * 10))
+                            {
+                                ownership[location - 1] = player;
+                                //ownership is set to player ID in the ownership array, cost is taken:
+                                money -= (rent * 10);
+                                Console.WriteLine($"{playerName} has purchased {propertyName} for {rent * 10}");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"{playerName} does not have the funds for {propertyName}");
+                            }
+                        }
+                        else if (ownership[location - 1] != player)
+                        {
+                            money -= rent;
+                            if (ownership[location - 1] == 1)
+                            {
+                                Boot.money += rent;
+                                Console.WriteLine($"{playerName} pays Boot £{rent} for staying at {propertyName}");
+                            }
+                            else if (ownership[location - 1] == 2)
+                            {
+                                Dog.money += rent;
+                                Console.WriteLine($"{playerName} pays Dog £{rent} for staying at {propertyName}");
+                            }
+
+                        }
+                        else //(ownership[location - 1] == player)
+                        {
+                            Console.WriteLine($"{playerName} is visiting their own property, {propertyName}");
+                        }
+                    }
+
+                    //Special case messages / scenarios
+                    Method.SpecialCase(specialCase, playerName, money);
+
+
+                    //Console write . temp
+                    Console.WriteLine($"\nMONOPOLY      round: {round}");
+                    Console.WriteLine($"player name: {playerName}");
+                    Console.WriteLine($"location ID: {location}");
+                    Console.WriteLine($"money: {money}");
+                    Console.WriteLine($"dice roll: {diceRoll}");
+                    Console.WriteLine($"location name: {propertyName}");
+                    Console.WriteLine($"rent: {rent}");
+                    Console.WriteLine("\n[   NEXT PLAYER PRESS SPACEBAR   ]");
+
+                    while (Console.ReadKey().Key != ConsoleKey.Spacebar) ;
+                    Console.Clear();
+
+                    //save variables
+                    switch (player)
+                    {
+                        case 1:
+                            Boot.location = location;
+                            Boot.money = money;
+                            break;
+                        default://player 2
+                            Dog.location = location;
+                            Dog.money = money;
+                            break;
+                    }
+
+                }
+            }
+
+            Console.WriteLine($"\nGAME OVER\nBoot has ended with £{Boot.money}\nDog has ended with £{Dog.money}");
+            if (Boot.money > Dog.money)
+            { Console.WriteLine("BOOT WINS"); }
+            else if (Boot.money < Dog.money)
+            { Console.WriteLine("DOG WINS"); }
+            else
+            { Console.WriteLine("DRAW"); }
+        }       
     }
 }
