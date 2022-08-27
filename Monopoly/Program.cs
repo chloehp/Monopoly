@@ -283,7 +283,7 @@ namespace Monopoly
     {    
         static void Main(string[] args)
         {
-            string version = "0.4";
+            string version = "0.4.1";
             int gameMode = 1;
 
             //Home screen
@@ -476,7 +476,9 @@ namespace Monopoly
             { Console.WriteLine(" DOG WINS!!!"); }
             else
             { Console.WriteLine( "DRAW"); }
-            Console.WriteLine("Thank you for playing!\nC# console MONOPOLY by Chloe Hughes-Penzer");
+            Console.WriteLine(" Thank you for playing!\n C# console MONOPOLY by Chloe Hughes-Penzer\n\n [         PRESS SPACEBAR         ]");
+
+            while (Console.ReadKey().Key != ConsoleKey.Spacebar) ;
         }       
     }
 }
