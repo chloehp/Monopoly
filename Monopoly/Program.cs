@@ -241,14 +241,35 @@ namespace Monopoly
                         array[location - 1] = "??";
                         break;
                 }
+
+                Console.WriteLine($" _______________________________\r\n|Go     |KentRd |Jail   |Strand |\r\n|  {array[0]}   |  {array[1]}   |  {array[2]}   |  {array[3]}   |\r\n|_______|_______|_______|_______|\r\n|VineSt |               |Chance |\r\n|  {array[11]}   |               |  {array[4]}   |\r\n|_______|      [{diceRoll}]      |_______|\r\n|WhiteCh|               |FleetSt|\r\n|  {array[10]}   |               |  {array[5]}   |\r\n|_______|_______________|_______|\r\n|ParkLn |Mayfair|GoJail |Oxford |\r\n|  {array[9]}   |  {array[8]}   |  {array[7]}   |  {array[6]}   |\r\n|_______|_______|_______|_______|\r\n");
+                
+
+            }
+            else if (location == 21)//21 is jail
+            {
+                Console.WriteLine(" ==============================\r\n||    ||    ||STUCK||    ||    ||\r\n||    ||    ||     ||    ||    ||\r\n||    ||    ||     ||    ||    ||\r\n||    ||    ||-----||    ||    ||");
+
+                if (diceRoll == 2)
+                {
+                    Console.WriteLine("||    ||    || █▀█ ||    ||    ||\r\n||====||====|| ░▄▀ ||====||====||\r\n||    ||    || █▄▄ ||    ||    ||");
+                }
+                else if (diceRoll == 1)
+                {
+                    Console.WriteLine("||    ||    || ▄█░ ||    ||    ||\r\n||====||====|| ░█░ ||====||====||\r\n||    ||    || ▄█▄ ||    ||    ||");
+                }
+                else
+                {
+                    Console.WriteLine("\n             |  " + diceRoll + "  |\n");
+                }
+
+                Console.WriteLine("||    ||    ||-----||    ||    ||\r\n||    ||    ||     ||    ||    ||\r\n||    ||    ||     ||    ||    ||\r\n||    ||    ||JAIL!||    ||    ||\r\n ===============================\r\n");
             }
 
             /* test display functions
             foreach (string b in array)
             { Console.WriteLine(b); }
             */
-
-            Console.WriteLine($" _______________________________\r\n|Go     |KentRd |Jail   |Strand |\r\n|  {array[0]}   |  {array[1]}   |  {array[2]}   |  {array[3]}   |\r\n|_______|_______|_______|_______|\r\n|VineSt |               |Chance |\r\n|  {array[11]}   |               |  {array[4]}   |\r\n|_______|      [{diceRoll}]      |_______|\r\n|WhiteCh|               |FleetSt|\r\n|  {array[10]}   |               |  {array[5]}   |\r\n|_______|_______________|_______|\r\n|ParkLn |Mayfair|GoJail |Oxford |\r\n|  {array[9]}   |  {array[8]}   |  {array[7]}   |  {array[6]}   |\r\n|_______|_______|_______|_______|\r\n");
 
         }
     }
@@ -262,15 +283,15 @@ namespace Monopoly
     {    
         static void Main(string[] args)
         {
-            double version = 0.3;
+            string version = "0.4";
+            int gameMode = 1;
 
             //Home screen
             string logo = "██████████████████████████████████████████████████\r\n█▄─▀█▀─▄█─▄▄─█▄─▀█▄─▄█─▄▄─█▄─▄▄─█─▄▄─█▄─▄███▄─█─▄█\r\n██─█▄█─██─██─██─█▄▀─██─██─██─▄▄▄█─██─██─██▀██▄─▄██\r\n▀▄▄▄▀▄▄▄▀▄▄▄▄▀▄▄▄▀▀▄▄▀▄▄▄▄▀▄▄▄▀▀▀▄▄▄▄▀▄▄▄▄▄▀▀▄▄▄▀";
             Console.Write($"{logo}█████████version.{version}███");
-            Console.WriteLine("\n\nUsing the dice, move around a 12 tile Monopoly board.\r\nCollect properties, avoid jail-time, and win big!\r\n\r\nThe board consists of 1 go, 1 chance, 1 go to jail, 1 jail and 8 property tiles.\r\nThe game has two players: Boot and Dog.\r\nAll players start on GO and finish at the end of round 20.\r\nAll players start with £2000.");
-            Console.WriteLine("\n[         PRESS SPACEBAR         ]");
+            Console.WriteLine("\n\n Using the dice, move around a 12 tile Monopoly board.\r\n Collect properties, avoid jail-time, and win big!\r\n\r\n The board consists of 1 go, 1 chance, 1 go to jail, 1 jail and 8 property tiles.\r\n The game has two players: Boot and Dog.\r\n All players start on GO and finish at the end of round 20.\r\n All players start with £2000.\n\n Epilepsy warning: some flashing\n\n There are three game modes:\n 1 - Player vs. Player\n 2 - Player vs. A.I.\n 3 - A.I. vs. A.I.\n\n Enter game mode:");
 
-            while (Console.ReadKey().Key != ConsoleKey.Spacebar) ;
+            gameMode = Convert.ToInt32(Console.ReadLine());
             Console.Clear();
 
             //variables:
@@ -311,22 +332,32 @@ namespace Monopoly
                     Method.TileIndex(diceRoll, location, player, out newLocation, out propertyName, out rent, out specialCase);
                     location = newLocation;
 
-                    //Console write . temp
-                    Console.WriteLine($"{logo}         round: {round}/20\n");
-                    Display.Board(player, location, diceRoll);
+                    if (gameMode != 3)
+                    {
+                        //Console write . temp
+                        Console.WriteLine($"{logo}______ROUND: {round}/20\n");
+                        Display.Board(player, location, diceRoll);
 
-                    Console.WriteLine($"player name: {playerName}");
-                    Console.WriteLine($"location ID: {location}");
-                    Console.WriteLine($"money: {money}");
-                    Console.WriteLine($"dice roll:{diceRoll}");
-                    Console.WriteLine($"location name: {propertyName}");
-                    Console.WriteLine($"rent: {rent}");
+                        Console.WriteLine($"Player name: {playerName}\nMoney: £{money}\nDice roll:{diceRoll}\nLocation name: {propertyName}\nRent: {rent}\n");
+
+                        switch (gameMode)
+                        {
+                            default:
+                                Console.WriteLine("█ PRESS ENTER TO ROLL █");
+                                while (Console.ReadKey().Key != ConsoleKey.Enter) ;
+                                break;
+                            case 2:
+                                if (player == 1)
+                                {
+                                    Console.WriteLine("█ PRESS ENTER TO ROLL █");
+                                    while (Console.ReadKey().Key != ConsoleKey.Enter) ;
+                                }
+                                break;
+                        }
 
 
-                    Console.WriteLine("\n PRESS ENTER TO ROLL");
-
-                    while (Console.ReadKey().Key != ConsoleKey.Enter) ;
-                    Console.Clear();
+                        Console.Clear();
+                    }
 
                     // diceroll count to location. 20 exception
                     while ((diceRoll > 0) && (location != 21))
@@ -335,11 +366,14 @@ namespace Monopoly
                         diceRoll--;
 
                         //display animation:
-                        
-                        Console.SetCursorPosition(0, 5);
-                        Display.Board(player, location, diceRoll);
-                        Thread.Sleep(200);
-                        Console.Clear();
+
+                        if (gameMode != 3)
+                        {
+                            Console.SetCursorPosition(0, 5);
+                            Display.Board(player, location, diceRoll);
+                            Thread.Sleep(200);
+                            Console.Clear();
+                        }
                         
                         //for when player passes go
                         //if location ID is over 12, -12
@@ -351,9 +385,10 @@ namespace Monopoly
                     }
 
 
-                    Console.WriteLine($"{logo}         round: {round}\n");
+                    Console.WriteLine($"{logo}______ROUND: {round}/20\n");
                     Display.Board(player, location, diceRoll);
 
+                    Console.WriteLine("MESSAGES:");
                     Method.TileIndex(diceRoll, location, player, out newLocation, out propertyName, out rent, out specialCase);
                     location = newLocation;
 
@@ -367,7 +402,7 @@ namespace Monopoly
                                 ownership[location - 1] = player;
                                 //ownership is set to player ID in the ownership array, cost is taken:
                                 money -= (rent * 10);
-                                Console.WriteLine($"{playerName} has purchased {propertyName} for {rent * 10}");
+                                Console.WriteLine($"{playerName} has purchased {propertyName} for £{rent * 10}");
                             }
                             else
                             {
@@ -403,23 +438,19 @@ namespace Monopoly
                     }
                     //Special case messages / scenarios
                     Method.SpecialCase(specialCase, playerName, out newMoney);
-                    Console.WriteLine(newMoney);
                     money += newMoney;
 
                     //Console write . temp
-                    Console.WriteLine($"player name: {playerName}");
-                    Console.WriteLine($"location ID: {location}");
-                    Console.WriteLine($"money: {money}");
-                    Console.WriteLine($"dice roll: {diceRoll}");
-                    Console.WriteLine($"location name: {propertyName}");
-                    Console.WriteLine($"rent: {rent}");
+                    if (gameMode != 3) 
+                    {
+                        Console.WriteLine($"\nPlayer name: {playerName}\nMoney: £{money}\nDice roll:{diceRoll}\nLocation name: {propertyName}\nRent: {rent}\n");
 
+                        Console.WriteLine("[   NEXT PLAYER PRESS SPACEBAR   ]");
 
-                    Console.WriteLine("\n[   NEXT PLAYER PRESS SPACEBAR   ]");
-
-                    while (Console.ReadKey().Key != ConsoleKey.Spacebar) ;
-                    Console.Clear();
-
+                        //skips when AI vs AI gamemode
+                        while (Console.ReadKey().Key != ConsoleKey.Spacebar) ;
+                        Console.Clear();
+                    }
                     //save variables
                     switch (player)
                     {
@@ -435,14 +466,17 @@ namespace Monopoly
 
                 }
             }
+            //End screen
 
-            Console.WriteLine($"\nGAME OVER\nBoot has ended with £{Boot.money}\nDog has ended with £{Dog.money}\n");
+            Console.Clear();
+            Console.WriteLine($"\n GAME OVER\n =========\n Boot has ended with £{Boot.money}\n Dog has ended with £{Dog.money}\n");
             if (Boot.money > Dog.money)
-            { Console.WriteLine("BOOT WINS"); }
+            { Console.WriteLine(" BOOT WINS!!!"); }
             else if (Boot.money < Dog.money)
-            { Console.WriteLine("DOG WINS"); }
+            { Console.WriteLine(" DOG WINS!!!"); }
             else
-            { Console.WriteLine("DRAW"); }
+            { Console.WriteLine( "DRAW"); }
+            Console.WriteLine("Thank you for playing!\nC# console MONOPOLY by Chloe Hughes-Penzer");
         }       
     }
 }
