@@ -54,7 +54,6 @@ namespace Monopoly
             {
                 case 21:
                     propertyName = "Jail";
-                    rent = 0;
                     specialCase = 3;
 
                     if (diceRoll >= 3)
@@ -260,7 +259,7 @@ namespace Monopoly
                 }
                 else
                 {
-                    Console.WriteLine("\n             |  " + diceRoll + "  |\n");
+                    Console.WriteLine("\n             |  " + diceRoll + "  |\n\r        RELEASED next turn!");
                 }
 
                 Console.WriteLine("||    ||    ||-----||    ||    ||\r\n||    ||    ||     ||    ||    ||\r\n||    ||    ||     ||    ||    ||\r\n||    ||    ||JAIL!||    ||    ||\r\n ===============================\r\n");
@@ -283,7 +282,7 @@ namespace Monopoly
     {    
         static void Main(string[] args)
         {
-            string version = "0.4.1";
+            string version = "0.5.0";
             int gameMode = 1;
 
             //Home screen
@@ -291,7 +290,14 @@ namespace Monopoly
             Console.Write($"{logo}█████████version.{version}███");
             Console.WriteLine("\n\n Using the dice, move around a 12 tile Monopoly board.\r\n Collect properties, avoid jail-time, and win big!\r\n\r\n The board consists of 1 go, 1 chance, 1 go to jail, 1 jail and 8 property tiles.\r\n The game has two players: Boot and Dog.\r\n All players start on GO and finish at the end of round 20.\r\n All players start with £2000.\n\n Epilepsy warning: some flashing\n\n There are three game modes:\n 1 - Player vs. Player\n 2 - Player vs. A.I.\n 3 - A.I. vs. A.I.\n\n Enter game mode:");
 
-            gameMode = Convert.ToInt32(Console.ReadLine());
+            try
+            {
+                gameMode = Convert.ToInt32(Console.ReadLine());
+            }
+            catch
+            {
+                gameMode = 1;
+            }
             Console.Clear();
 
             //variables:
@@ -338,18 +344,26 @@ namespace Monopoly
                         Console.WriteLine($"{logo}______ROUND: {round}/20\n");
                         Display.Board(player, location, diceRoll);
 
+                        //Special case messages / scenarios
+                        Method.SpecialCase(specialCase, playerName, out newMoney);
+                        // Don't move from visiting after release from jail
+                        if (specialCase == 1) { diceRoll = 0; }
+                        specialCase = 0;
+
                         Console.WriteLine($"Player name: {playerName}\nMoney: £{money}\nDice roll:{diceRoll}\nLocation name: {propertyName}\nRent: {rent}\n");
 
                         switch (gameMode)
                         {
                             default:
                                 Console.WriteLine("█ PRESS ENTER TO ROLL █");
+                                Thread.Sleep(100);
                                 while (Console.ReadKey().Key != ConsoleKey.Enter) ;
                                 break;
                             case 2:
                                 if (player == 1)
                                 {
                                     Console.WriteLine("█ PRESS ENTER TO ROLL █");
+                                    Thread.Sleep(100);
                                     while (Console.ReadKey().Key != ConsoleKey.Enter) ;
                                 }
                                 break;
@@ -374,7 +388,7 @@ namespace Monopoly
                             Thread.Sleep(200);
                             Console.Clear();
                         }
-                        
+
                         //for when player passes go
                         //if location ID is over 12, -12
                         if (location > 12)
@@ -436,9 +450,11 @@ namespace Monopoly
                         money += 200;
                         goTrigger = false;
                     }
+
                     //Special case messages / scenarios
                     Method.SpecialCase(specialCase, playerName, out newMoney);
                     money += newMoney;
+                    specialCase = 0;
 
                     //Console write . temp
                     if (gameMode != 3) 
@@ -448,6 +464,7 @@ namespace Monopoly
                         Console.WriteLine("[   NEXT PLAYER PRESS SPACEBAR   ]");
 
                         //skips when AI vs AI gamemode
+                        Thread.Sleep(100);
                         while (Console.ReadKey().Key != ConsoleKey.Spacebar) ;
                         Console.Clear();
                     }
@@ -478,6 +495,7 @@ namespace Monopoly
             { Console.WriteLine( "DRAW"); }
             Console.WriteLine(" Thank you for playing!\n C# console MONOPOLY by Chloe Hughes-Penzer\n\n [         PRESS SPACEBAR         ]");
 
+            Thread.Sleep(500);
             while (Console.ReadKey().Key != ConsoleKey.Spacebar) ;
         }       
     }
