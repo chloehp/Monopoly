@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Security.Policy;
+//using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+//using System.Threading.Tasks;
 
 namespace Monopoly
 {
@@ -282,22 +282,25 @@ namespace Monopoly
     {    
         static void Main(string[] args)
         {
-            string version = "0.5.0";
-            int gameMode = 1;
-
-            //Home screen
+            string version = "0.5.1";
             string logo = "██████████████████████████████████████████████████\r\n█▄─▀█▀─▄█─▄▄─█▄─▀█▄─▄█─▄▄─█▄─▄▄─█─▄▄─█▄─▄███▄─█─▄█\r\n██─█▄█─██─██─██─█▄▀─██─██─██─▄▄▄█─██─██─██▀██▄─▄██\r\n▀▄▄▄▀▄▄▄▀▄▄▄▄▀▄▄▄▀▀▄▄▀▄▄▄▄▀▄▄▄▀▀▀▄▄▄▄▀▄▄▄▄▄▀▀▄▄▄▀";
-            Console.Write($"{logo}█████████version.{version}███");
-            Console.WriteLine("\n\n Using the dice, move around a 12 tile Monopoly board.\r\n Collect properties, avoid jail-time, and win big!\r\n\r\n The board consists of 1 go, 1 chance, 1 go to jail, 1 jail and 8 property tiles.\r\n The game has two players: Boot and Dog.\r\n All players start on GO and finish at the end of round 20.\r\n All players start with £2000.\n\n Epilepsy warning: some flashing\n\n There are three game modes:\n 1 - Player vs. Player\n 2 - Player vs. A.I.\n 3 - A.I. vs. A.I.\n\n Enter game mode:");
+            int gameMode = 0;
 
-            try
+            while (gameMode == 0)
             {
-                gameMode = Convert.ToInt32(Console.ReadLine());
+                //Home screen
+                Console.Clear();
+                Console.Write($"{logo}█████████version.{version}███");
+                Console.WriteLine("\n\n Using the dice, move around a 12 tile Monopoly board.\r\n Collect properties, avoid jail-time, and win big!\r\n\r\n The board consists of 1 go, 1 chance, 1 go to jail, 1 jail and 8 property tiles.\r\n The game has two players: Boot and Dog.\r\n All players start on GO and finish at the end of round 20.\r\n All players start with £2000.\n\n Epilepsy warning: some flashing\n\n There are three game modes:\n 1 - Player vs. Player\n 2 - Player vs. A.I.\n 3 - A.I. vs. A.I.\n\n Enter game mode:");
+
+                try
+                {
+                    gameMode = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                { gameMode = 0; }
             }
-            catch
-            {
-                gameMode = 1;
-            }
+                
             Console.Clear();
 
             //variables:
@@ -492,7 +495,7 @@ namespace Monopoly
             else if (Boot.money < Dog.money)
             { Console.WriteLine(" DOG WINS!!!"); }
             else
-            { Console.WriteLine( "DRAW"); }
+            { Console.WriteLine(" DRAW"); }
             Console.WriteLine(" Thank you for playing!\n C# console MONOPOLY by Chloe Hughes-Penzer\n\n [         PRESS SPACEBAR         ]");
 
             Thread.Sleep(500);
