@@ -1,0 +1,9 @@
+8	{playerName} is going to jail!
+4	{playerName} is visiting jail.
+3	{playerName} is in jail.
+1	{playerName} has been released from jail!
+2	{playerName} is stuck in jail!
+
+5	{playerName} wins the lottery and is given £2000!
+6	{playerName} gets a black eye and loses £2000 trying to double up in the casino.
+7	{playerName} was sent to jail for a bank robbery gone wrong.

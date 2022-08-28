@@ -1,0 +1,9 @@
+use textart for flashiness
+display title & game rules at startup
+maybe have save feature
+
+program - user has to go across each tile so they can go PAST go
+without having to land on it BUT not activate any other tile
+(other than Go) when they bump across it
+solution - countdown - if dicerole number >1 continue bumping
+and do not activate tile. Go exception - activate tile regardless.

@@ -1,0 +1,12 @@
+██████████████████████████████████████████████████
+█▄─▀█▀─▄█─▄▄─█▄─▀█▄─▄█─▄▄─█▄─▄▄─█─▄▄─█▄─▄███▄─█─▄█
+██─█▄█─██─██─██─█▄▀─██─██─██─▄▄▄█─██─██─██▀██▄─▄██
+▀▄▄▄▀▄▄▄▀▄▄▄▄▀▄▄▄▀▀▄▄▀▄▄▄▄▀▄▄▄▀▀▀▄▄▄▄▀▄▄▄▄▄▀▀▄▄▄▀
+
+Using the dice, move around a 12 tile Monopoly board.
+Collect properties, avoid jail-time, and win big!\n
+
+The board consists of 1 go, 1 chance, 1 go to jail, 1 jail and 8 property tiles.
+The game has two players: Boot and Dog.
+All players start on GO.
+All players start with £2000.

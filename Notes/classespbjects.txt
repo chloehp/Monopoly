@@ -1,0 +1,22 @@
+TILES:
+Go
+OldKentRoad
+Jail
+Visiting
+TheStrand
+Chance
+FleetStreet
+OxfordStreet
+GoToJail
+Mayfair
+ParkLane
+Whitechapel
+VineStreet
+
+PLAYERS:
+Player 1 - Boot
+Player 2 - Dog
+
+MISC:
+d3 dice
+d6 dice

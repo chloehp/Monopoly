@@ -1,0 +1,5 @@
+does not display released from jail msg DONE
+
+only clear needed parts for efficiency
+
+different CMD and powershell versions

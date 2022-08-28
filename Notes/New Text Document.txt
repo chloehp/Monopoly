@@ -1,0 +1,21 @@
+int[] playerArray = {1, 2};
+
+round = 1
+
+foreach (int player in playerArray)
+{
+if round >= 20 
+	finish app
+else
+{
+event: spacebar keyup
+	print player x
+
+	event: spacebar keyup
+		role dice
+		tile actions
+		print player x
+
+round+= 1
+}
+}
